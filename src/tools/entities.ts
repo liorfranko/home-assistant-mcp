@@ -1,0 +1,163 @@
+// @ts-ignore
+const zod = require("zod");
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { Entity } from "../types/index.js";
+import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
+
+export function registerEntityTools(server: McpServer) {
+  server.tool("listEntities",
+    { domain: zod.string().optional() },
+    async ({ domain }) => {
+      try {
+        const entities = await callHomeAssistantApi<Entity[]>('get', '/api/states');
+        
+        let filteredEntities = entities.map((entity: Entity) => ({
+          entity_id: entity.entity_id,
+          state: entity.state,
+          attributes: entity.attributes,
+          last_changed: entity.last_changed,
+          last_updated: entity.last_updated
+        }));
+        
+        // Filter by domain if provided
+        if (domain) {
+          filteredEntities = filteredEntities.filter(entity => 
+            entity.entity_id.startsWith(`${domain}.`)
+          );
+        }
+        
+        return {
+          content: [{ 
+            type: "text", 
+            text: JSON.stringify(filteredEntities, null, 2)
+          }]
+        };
+      } catch (error: any) {
+        console.error("Error fetching entities:", error);
+        return {
+          content: [{ 
+            type: "text", 
+            text: formatErrorMessage(error, "fetching entities")
+          }]
+        };
+      }
+    }
+  );
+
+  server.tool("getEntity",
+    { entity_id: zod.string() },
+    async ({ entity_id }) => {
+      try {
+        const entity = await callHomeAssistantApi<Entity>('get', `/api/states/${entity_id}`);
+        
+        return {
+          content: [{ 
+            type: "text", 
+            text: JSON.stringify(entity, null, 2)
+          }]
+        };
+      } catch (error: any) {
+        console.error(`Error fetching entity ${entity_id}:`, error);
+        return {
+          content: [{ 
+            type: "text", 
+            text: formatErrorMessage(error, `fetching entity ${entity_id}`)
+          }]
+        };
+      }
+    }
+  );
+
+  server.tool("updateEntity",
+    {
+      entity_id: zod.string(),
+      state: zod.string(),
+      attributes: zod.record(zod.any()).optional()
+    },
+    async ({ entity_id, state, attributes }) => {
+      try {
+        const payload: any = { state };
+        
+        if (attributes) {
+          payload.attributes = attributes;
+        }
+        
+        const response = await callHomeAssistantApi<Entity>(
+          'post',
+          `/api/states/${entity_id}`,
+          payload
+        );
+        
+        return {
+          content: [{ 
+            type: "text", 
+            text: JSON.stringify({
+              success: true,
+              message: "Entity updated successfully",
+              entity: response
+            }, null, 2)
+          }]
+        };
+      } catch (error: any) {
+        console.error(`Error updating entity ${entity_id}:`, error);
+        return {
+          content: [{ 
+            type: "text", 
+            text: formatErrorMessage(error, `updating entity ${entity_id}`)
+          }]
+        };
+      }
+    }
+  );
+
+  server.tool("callService",
+    {
+      domain: zod.string(),
+      service: zod.string(),
+      service_data: zod.record(zod.any()).optional(),
+      target: zod.object({
+        entity_id: zod.string().or(zod.array(zod.string())).optional(),
+        device_id: zod.string().or(zod.array(zod.string())).optional(),
+        area_id: zod.string().or(zod.array(zod.string())).optional()
+      }).optional()
+    },
+    async ({ domain, service, service_data, target }) => {
+      try {
+        const payload: any = {};
+        
+        if (service_data) {
+          Object.assign(payload, service_data);
+        }
+        
+        if (target) {
+          Object.assign(payload, target);
+        }
+        
+        const response = await callHomeAssistantApi<any>(
+          'post',
+          `/api/services/${domain}/${service}`,
+          payload
+        );
+        
+        return {
+          content: [{ 
+            type: "text", 
+            text: JSON.stringify({
+              success: true,
+              message: `Service ${domain}.${service} called successfully`,
+              result: response
+            }, null, 2)
+          }]
+        };
+      } catch (error: any) {
+        console.error(`Error calling service ${domain}.${service}:`, error);
+        return {
+          content: [{ 
+            type: "text", 
+            text: formatErrorMessage(error, `calling service ${domain}.${service}`)
+          }]
+        };
+      }
+    }
+  );
+} 
