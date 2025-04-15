@@ -1,5 +1,4 @@
-// @ts-ignore
-const zod = require("zod");
+import { z } from 'zod';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Entity } from "../types/index.js";
 import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
@@ -39,7 +38,7 @@ export function registerAutomationTools(server: McpServer) {
   );
 
   server.tool("getAutomation",
-    { automation_id: zod.string() },
+    { automation_id: z.string() },
     async ({ automation_id }) => {
       try {
         if (!automation_id.startsWith('automation.')) {
@@ -76,11 +75,11 @@ export function registerAutomationTools(server: McpServer) {
 
   server.tool("createAutomation", 
     { 
-      alias: zod.string(),
-      description: zod.string().optional(),
-      trigger: zod.any(),
-      condition: zod.any().optional(),
-      action: zod.any()
+      alias: z.string(),
+      description: z.string().optional(),
+      trigger: z.any(),
+      condition: z.any().optional(),
+      action: z.any()
     },
     async ({ alias, description, trigger, condition, action }) => {
       try {
@@ -126,9 +125,9 @@ export function registerAutomationTools(server: McpServer) {
 
   server.tool("updateAutomation",
     {
-      automation_id: zod.string(),
-      state: zod.enum(["on", "off"]).optional(),
-      config: zod.any().optional()
+      automation_id: z.string(),
+      state: z.enum(["on", "off"]).optional(),
+      config: z.any().optional()
     },
     async ({ automation_id, state, config }) => {
       try {
@@ -181,7 +180,7 @@ export function registerAutomationTools(server: McpServer) {
   );
 
   server.tool("deleteAutomation",
-    { automation_id: zod.string() },
+    { automation_id: z.string() },
     async ({ automation_id }) => {
       try {
         if (!automation_id.startsWith('automation.')) {

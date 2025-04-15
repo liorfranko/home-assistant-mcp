@@ -28,15 +28,16 @@ This MCP provides integration between Anthropic's Claude and your Home Assistant
 The source code is organized into the following directories:
 
 - `/src`: Main source directory
-  - `/config`: Configuration and API utilities
-    - `api.ts`: API connection utilities and environment setup
+  - `/config`: Configuration settings
+    - `api.ts`: API connection configuration
   - `/tools`: Tool implementations organized by functionality
     - `automations.ts`: Tools for managing Home Assistant automations
     - `entities.ts`: Tools for interacting with Home Assistant entities
     - `nodeRed.ts`: Tools for managing Node-RED flows
     - `updates.ts`: Tools for handling Home Assistant updates
   - `/types`: Type definitions
-    - `index.ts`: Common types used throughout the application
+  - `/utils`: Utility functions
+    - `api-utils.ts`: API connection utilities and helper functions
   - `index.ts`: Main entry point that registers all tools
 
 ## Setup
@@ -48,9 +49,9 @@ The source code is organized into the following directories:
    ```
 3. Create a `.env` file with the following variables:
    ```
-   HA_URL=http://your-home-assistant-url:8123
+   HA_URL=http://homeassistant.local:8123
    HA_TOKEN=your_long_lived_access_token
-   NODE_RED_URL=http://your-node-red-url:1880
+   NODE_RED_URL=http://homeassistant.local:1880
    NODE_RED_USERNAME=your_node_red_username
    NODE_RED_PASSWORD=your_node_red_password
    ```
@@ -70,12 +71,17 @@ For development with hot-reloading:
 npm run dev
 ```
 
+Run tests:
+```
+npm test
+```
+
 ### Adding New Tools
 
 To add new tools:
 
 1. Create appropriate type definitions in `/types` if needed
-2. Add utility functions in `/config` if needed
+2. Add utility functions in `/utils` if needed
 3. Create a new file in `/tools` for your tool category
 4. Register your tools in `index.ts`
 
@@ -132,16 +138,6 @@ To add new tools:
 - Check that your Node-RED instance is properly configured if you're using those features
 - Verify environment variables are correctly set in your `.env` file
 - Check the console output for detailed error messages
-
-## Testing
-
-To run integration tests:
-
-```
-RUN_TESTS=true npm start
-```
-
-Note: Tests require a working Home Assistant connection.
 
 ## License
 

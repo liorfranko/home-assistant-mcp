@@ -1,5 +1,4 @@
-// @ts-ignore
-const zod = require("zod");
+import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { NodeRedFlow, FormattedNodeRedFlow } from "../types/index.js";
 import { callNodeRedApi, formatErrorMessage } from "../utils/api-utils.js";
@@ -40,7 +39,7 @@ export function registerNodeRedTools(server: McpServer) {
   );
 
   server.tool("getNodeRedFlow",
-    { flow_id: zod.string() },
+    { flow_id: z.string() },
     async ({ flow_id }) => {
       try {
         // Get all flows
@@ -94,8 +93,8 @@ export function registerNodeRedTools(server: McpServer) {
 
   server.tool("updateNodeRedFlow",
     { 
-      flow_id: zod.string(),
-      config: zod.record(zod.any())
+      flow_id: z.string(),
+      config: z.record(z.any())
     },
     async ({ flow_id, config }) => {
       try {
@@ -143,7 +142,7 @@ export function registerNodeRedTools(server: McpServer) {
   );
 
   server.tool("deployNodeRedFlows",
-    { type: zod.enum(["full", "nodes", "flows"]).optional() },
+    { type: z.enum(["full", "nodes", "flows"]).optional() },
     async ({ type = "full" }) => {
       try {
         const response = await callNodeRedApi<any>(

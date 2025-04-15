@@ -1,12 +1,11 @@
-// @ts-ignore
-const zod = require("zod");
+import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Entity } from "../types/index.js";
 import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
 
 export function registerEntityTools(server: McpServer) {
   server.tool("listEntities",
-    { domain: zod.string().optional() },
+    { domain: z.string().optional() },
     async ({ domain }) => {
       try {
         const entities = await callHomeAssistantApi<Entity[]>('get', '/api/states');
@@ -45,7 +44,7 @@ export function registerEntityTools(server: McpServer) {
   );
 
   server.tool("getEntity",
-    { entity_id: zod.string() },
+    { entity_id: z.string() },
     async ({ entity_id }) => {
       try {
         const entity = await callHomeAssistantApi<Entity>('get', `/api/states/${entity_id}`);
@@ -70,9 +69,9 @@ export function registerEntityTools(server: McpServer) {
 
   server.tool("updateEntity",
     {
-      entity_id: zod.string(),
-      state: zod.string(),
-      attributes: zod.record(zod.any()).optional()
+      entity_id: z.string(),
+      state: z.string(),
+      attributes: z.record(z.any()).optional()
     },
     async ({ entity_id, state, attributes }) => {
       try {
@@ -112,13 +111,13 @@ export function registerEntityTools(server: McpServer) {
 
   server.tool("callService",
     {
-      domain: zod.string(),
-      service: zod.string(),
-      service_data: zod.record(zod.any()).optional(),
-      target: zod.object({
-        entity_id: zod.string().or(zod.array(zod.string())).optional(),
-        device_id: zod.string().or(zod.array(zod.string())).optional(),
-        area_id: zod.string().or(zod.array(zod.string())).optional()
+      domain: z.string(),
+      service: z.string(),
+      service_data: z.record(z.any()).optional(),
+      target: z.object({
+        entity_id: z.string().or(z.array(z.string())).optional(),
+        device_id: z.string().or(z.array(z.string())).optional(),
+        area_id: z.string().or(z.array(z.string())).optional()
       }).optional()
     },
     async ({ domain, service, service_data, target }) => {

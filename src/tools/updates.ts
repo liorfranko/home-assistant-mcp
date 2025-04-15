@@ -1,5 +1,4 @@
-// @ts-ignore
-const zod = require("zod");
+import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Entity, UpdateEntity } from "../types/index.js";
 import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
@@ -65,8 +64,8 @@ export function registerUpdateTools(server: McpServer) {
 
   server.tool("getUpdateDetails",
     { 
-      update_type: zod.enum(["core", "supervisor", "addon"]), 
-      addon_slug: zod.string().optional()
+      update_type: z.enum(["core", "supervisor", "addon"]), 
+      addon_slug: z.string().optional()
     },
     async ({ update_type, addon_slug }) => {
       try {
@@ -151,7 +150,7 @@ export function registerUpdateTools(server: McpServer) {
   );
 
   server.tool("installUpdates",
-    { update_all: zod.boolean().optional() },
+    { update_all: z.boolean().optional() },
     async ({ update_all = true }) => {
       try {
         // Get all entities
