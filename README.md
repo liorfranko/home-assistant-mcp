@@ -45,22 +45,39 @@ The source code is organized into the following directories:
     - `api-utils.ts`: API connection utilities and helper functions
   - `index.ts`: Main entry point that registers all tools
 
+## Prerequisites
+
+- **Node.js** (v14.x or later)
+- **npm** (v6.x or later)
+- **Home Assistant** instance (accessible via network)
+- **Long-lived access token** for Home Assistant
+- **Node-RED** (optional, required only for Node-RED integration)
+- **Cursor Editor** (optional, required only for Cursor MCP integration)
+
 ## Setup
 
 ### Option 1: Run with Cursor MCP
 
-1. Create a `.cursor` directory in your project:
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/home-assistant-mcp.git
+   cd home-assistant-mcp
+   npm install
+   npm run build
+   ```
+
+2. Create a `.cursor` directory in your project:
    ```
    mkdir -p .cursor
    ```
 
-2. Create a `mcp.json` file in the `.cursor` directory:
+3. Create a `mcp.json` file in the `.cursor` directory:
    ```json
    {
      "mcpServers": {
        "home-assistant": {
-         "command": "npm",
-         "args": ["run", "cursor:dev"],
+         "command": "node",
+         "args": ["<path/to/your/dist/folder>"],
          "env": {
            "HA_URL": "http://homeassistant.local:8123",
            "HA_TOKEN": "your_long_lived_access_token",
@@ -73,13 +90,18 @@ The source code is organized into the following directories:
    }
    ```
 
-3. Replace the environment variables with your actual Home Assistant and Node-RED credentials
-4. Restart Cursor or reload the window to enable the MCP server
-5. Open Cursor's chat (Cmd+I or Ctrl+I) and try a command like "List all my Home Assistant automations"
+4. Replace the environment variables with your actual Home Assistant and Node-RED credentials
+5. Restart Cursor or reload the window to enable the MCP server
+6. Open Cursor's chat (Cmd+I or Ctrl+I) and try a command like "List all my Home Assistant automations"
 
 ### Option 2: Run standalone
 
-1. Clone this repository
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/home-assistant-mcp.git
+   cd home-assistant-mcp
+   ```
+
 2. Install dependencies:
    ```
    npm install
