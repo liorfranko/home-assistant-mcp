@@ -4,7 +4,9 @@ import { Entity } from "../types/index.js";
 import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
 
 export function registerMediaPlayerTools(server: McpServer) {
-  server.tool("listMediaPlayers",
+  server.tool(
+    "listMediaPlayers",
+    "Lists all media players in Home Assistant with their current state and properties.",
     {},
     async () => {
       try {
@@ -38,7 +40,9 @@ export function registerMediaPlayerTools(server: McpServer) {
     }
   );
 
-  server.tool("controlMediaPlayer",
+  server.tool(
+    "controlMediaPlayer",
+    "Controls a media player with common commands like play, pause, stop, next, or previous.",
     { 
       entity_id: z.string(),
       command: z.enum(["play", "pause", "stop", "next", "previous"]),
@@ -76,7 +80,9 @@ export function registerMediaPlayerTools(server: McpServer) {
     }
   );
 
-  server.tool("setVolume",
+  server.tool(
+    "setVolume",
+    "Sets the volume level (0.0 to 1.0) for a specified media player.",
     { 
       entity_id: z.string(),
       volume_level: z.number().min(0).max(1),

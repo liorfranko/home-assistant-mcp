@@ -4,7 +4,9 @@ import { Entity } from "../types/index.js";
 import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
 
 export function registerAutomationTools(server: McpServer) {
-  server.tool("listAutomations",
+  server.tool(
+    "listAutomations",
+    "Retrieves a list of all automations from Home Assistant with their current state and when they were last triggered.",
     {},
     async () => {
       try {
@@ -37,7 +39,9 @@ export function registerAutomationTools(server: McpServer) {
     }
   );
 
-  server.tool("getAutomation",
+  server.tool(
+    "getAutomation",
+    "Gets detailed information about a specific automation by its ID.",
     { automation_id: z.string() },
     async ({ automation_id }) => {
       try {
@@ -73,7 +77,9 @@ export function registerAutomationTools(server: McpServer) {
     }
   );
 
-  server.tool("createAutomation", 
+  server.tool(
+    "createAutomation",
+    "Creates a new automation in Home Assistant with the specified configuration.",
     { 
       alias: z.string(),
       description: z.string().optional(),
@@ -123,7 +129,9 @@ export function registerAutomationTools(server: McpServer) {
     }
   );
 
-  server.tool("updateAutomation",
+  server.tool(
+    "updateAutomation",
+    "Updates an existing automation by changing its state (on/off) or configuration.",
     {
       automation_id: z.string(),
       state: z.enum(["on", "off"]).optional(),
@@ -179,7 +187,9 @@ export function registerAutomationTools(server: McpServer) {
     }
   );
 
-  server.tool("deleteAutomation",
+  server.tool(
+    "deleteAutomation",
+    "Permanently removes an automation from Home Assistant by its ID.",
     { automation_id: z.string() },
     async ({ automation_id }) => {
       try {

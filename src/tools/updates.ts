@@ -4,7 +4,9 @@ import { Entity, UpdateEntity } from "../types/index.js";
 import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
 
 export function registerUpdateTools(server: McpServer) {
-  server.tool("checkUpdates",
+  server.tool(
+    "checkUpdates",
+    "Checks for available updates to Home Assistant core, supervisor, operating system, and add-ons.",
     {},
     async () => {
       try {
@@ -62,7 +64,9 @@ export function registerUpdateTools(server: McpServer) {
     }
   );
 
-  server.tool("getUpdateDetails",
+  server.tool(
+    "getUpdateDetails",
+    "Gets detailed information about a specific update including release notes and version information.",
     { 
       update_type: z.enum(["core", "supervisor", "addon"]), 
       addon_slug: z.string().optional()
@@ -149,7 +153,9 @@ export function registerUpdateTools(server: McpServer) {
     }
   );
 
-  server.tool("installUpdates",
+  server.tool(
+    "installUpdates",
+    "Simulates installing updates for Home Assistant components with an option to update all or just core components.",
     { update_all: z.boolean().optional() },
     async ({ update_all = true }) => {
       try {
@@ -251,11 +257,11 @@ export function registerUpdateTools(server: McpServer) {
           };
         }
       } catch (error: any) {
-        console.error("Error processing updates:", error);
+        console.error("Error installing updates:", error);
         return {
           content: [{ 
             type: "text", 
-            text: formatErrorMessage(error, "processing updates")
+            text: formatErrorMessage(error, "installing updates")
           }]
         };
       }

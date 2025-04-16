@@ -4,7 +4,9 @@ import { Entity } from "../types/index.js";
 import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
 
 export function registerEntityTools(server: McpServer) {
-  server.tool("listEntities",
+  server.tool(
+    "listEntities",
+    "Lists all entities from Home Assistant, optionally filtered by domain (e.g., light, switch, sensor).",
     { domain: z.string().optional() },
     async ({ domain }) => {
       try {
@@ -43,7 +45,9 @@ export function registerEntityTools(server: McpServer) {
     }
   );
 
-  server.tool("getEntity",
+  server.tool(
+    "getEntity",
+    "Retrieves detailed information about a specific entity by its ID.",
     { entity_id: z.string() },
     async ({ entity_id }) => {
       try {
@@ -67,7 +71,9 @@ export function registerEntityTools(server: McpServer) {
     }
   );
 
-  server.tool("updateEntity",
+  server.tool(
+    "updateEntity",
+    "Updates the state and optionally the attributes of an entity in Home Assistant.",
     {
       entity_id: z.string(),
       state: z.string(),
@@ -109,7 +115,9 @@ export function registerEntityTools(server: McpServer) {
     }
   );
 
-  server.tool("callService",
+  server.tool(
+    "callService",
+    "Calls any Home Assistant service with optional service data and target entities, devices, or areas.",
     {
       domain: z.string(),
       service: z.string(),

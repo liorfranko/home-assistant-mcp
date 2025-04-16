@@ -4,7 +4,9 @@ import { NodeRedFlow, FormattedNodeRedFlow } from "../types/index.js";
 import { callNodeRedApi, formatErrorMessage } from "../utils/api-utils.js";
 
 export function registerNodeRedTools(server: McpServer) {
-  server.tool("listNodeRedFlows",
+  server.tool(
+    "listNodeRedFlows",
+    "Lists all available Node-RED flows with their basic properties like name and status.",
     {},
     async () => {
       try {
@@ -38,7 +40,9 @@ export function registerNodeRedTools(server: McpServer) {
     }
   );
 
-  server.tool("getNodeRedFlow",
+  server.tool(
+    "getNodeRedFlow",
+    "Retrieves detailed information about a specific Node-RED flow and its nodes.",
     { flow_id: z.string() },
     async ({ flow_id }) => {
       try {
@@ -91,7 +95,9 @@ export function registerNodeRedTools(server: McpServer) {
     }
   );
 
-  server.tool("updateNodeRedFlow",
+  server.tool(
+    "updateNodeRedFlow",
+    "Updates the configuration of a Node-RED flow with specified properties.",
     { 
       flow_id: z.string(),
       config: z.record(z.any())
@@ -141,7 +147,9 @@ export function registerNodeRedTools(server: McpServer) {
     }
   );
 
-  server.tool("deployNodeRedFlows",
+  server.tool(
+    "deployNodeRedFlows",
+    "Deploys Node-RED flows with options for full, nodes, or flows deployment types.",
     { type: z.enum(["full", "nodes", "flows"]).optional() },
     async ({ type = "full" }) => {
       try {
