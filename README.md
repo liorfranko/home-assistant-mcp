@@ -14,6 +14,11 @@ This MCP provides integration between Anthropic's Claude and your Home Assistant
   - Update entity states and attributes
   - Call Home Assistant services for more complex actions
 
+- **Media Player Control**
+  - List all media players with their current states
+  - Control playback (play, pause, stop, next, previous)
+  - Adjust volume levels
+
 - **Updates Management**
   - Check for available updates for Home Assistant Core, Supervisor, OS, and add-ons
   - Get detailed update information
@@ -41,6 +46,38 @@ The source code is organized into the following directories:
   - `index.ts`: Main entry point that registers all tools
 
 ## Setup
+
+### Option 1: Run with Cursor MCP
+
+1. Create a `.cursor` directory in your project:
+   ```
+   mkdir -p .cursor
+   ```
+
+2. Create a `mcp.json` file in the `.cursor` directory:
+   ```json
+   {
+     "mcpServers": {
+       "home-assistant": {
+         "command": "npm",
+         "args": ["run", "cursor:dev"],
+         "env": {
+           "HA_URL": "http://homeassistant.local:8123",
+           "HA_TOKEN": "your_long_lived_access_token",
+           "NODE_RED_URL": "http://homeassistant.local:1880",
+           "NODE_RED_USERNAME": "your_node_red_username",
+           "NODE_RED_PASSWORD": "your_node_red_password"
+         }
+       }
+     }
+   }
+   ```
+
+3. Replace the environment variables with your actual Home Assistant and Node-RED credentials
+4. Restart Cursor or reload the window to enable the MCP server
+5. Open Cursor's chat (Cmd+I or Ctrl+I) and try a command like "List all my Home Assistant automations"
+
+### Option 2: Run standalone
 
 1. Clone this repository
 2. Install dependencies:
@@ -110,6 +147,12 @@ To add new tools:
 - `getEntity`: Get details about a specific entity
 - `updateEntity`: Update an entity's state and attributes
 - `callService`: Call any Home Assistant service
+
+### Media Player Control
+
+- `listMediaPlayers`: List all media players with their states and properties
+- `controlMediaPlayer`: Control media players with common commands
+- `setVolume`: Set volume level for a specified media player
 
 ### Updates Management
 
