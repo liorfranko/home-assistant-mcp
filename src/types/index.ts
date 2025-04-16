@@ -31,6 +31,23 @@ export interface UpdateEntity extends Entity {
   };
 }
 
+// Backup interface
+export interface Backup {
+  slug: string;
+  name: string;
+  date: string;
+  size: number;
+  location: "local" | "remote";
+  protected: boolean;
+  compressed: boolean;
+  content: {
+    homeassistant: boolean;
+    addons: string[];
+    folders: string[];
+  };
+  type: "full" | "partial";
+}
+
 // API headers interface
 export interface ApiHeaders {
   Authorization: string;
