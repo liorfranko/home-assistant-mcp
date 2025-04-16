@@ -43,7 +43,9 @@ export function registerNodeRedTools(server: McpServer) {
   server.tool(
     "getNodeRedFlow",
     "Retrieves detailed information about a specific Node-RED flow and its nodes.",
-    { flow_id: z.string() },
+    { 
+      flow_id: z.string().describe("The ID of the Node-RED flow to retrieve") 
+    },
     async ({ flow_id }) => {
       try {
         // Get all flows
@@ -99,8 +101,8 @@ export function registerNodeRedTools(server: McpServer) {
     "updateNodeRedFlow",
     "Updates the configuration of a Node-RED flow with specified properties.",
     { 
-      flow_id: z.string(),
-      config: z.record(z.any())
+      flow_id: z.string().describe("The ID of the Node-RED flow to update"),
+      config: z.record(z.any()).describe("New configuration properties to apply to the flow")
     },
     async ({ flow_id, config }) => {
       try {
@@ -150,7 +152,9 @@ export function registerNodeRedTools(server: McpServer) {
   server.tool(
     "deployNodeRedFlows",
     "Deploys Node-RED flows with options for full, nodes, or flows deployment types.",
-    { type: z.enum(["full", "nodes", "flows"]).optional() },
+    { 
+      type: z.enum(["full", "nodes", "flows"]).optional().describe("Deployment type: 'full' (default), 'nodes', or 'flows'") 
+    },
     async ({ type = "full" }) => {
       try {
         const response = await callNodeRedApi<any>(

@@ -42,7 +42,9 @@ export function registerAutomationTools(server: McpServer) {
   server.tool(
     "getAutomation",
     "Gets detailed information about a specific automation by its ID.",
-    { automation_id: z.string() },
+    { 
+      automation_id: z.string().describe("Automation ID (required for update, delete, and duplicate)") 
+    },
     async ({ automation_id }) => {
       try {
         if (!automation_id.startsWith('automation.')) {
@@ -81,11 +83,11 @@ export function registerAutomationTools(server: McpServer) {
     "createAutomation",
     "Creates a new automation in Home Assistant with the specified configuration.",
     { 
-      alias: z.string(),
-      description: z.string().optional(),
-      trigger: z.any(),
-      condition: z.any().optional(),
-      action: z.any()
+      alias: z.string().describe("Friendly name for the automation"),
+      description: z.string().optional().describe("Description of what the automation does"),
+      trigger: z.any().describe("List of triggers that will initiate the automation"),
+      condition: z.any().optional().describe("List of conditions that must be true for the automation to run"),
+      action: z.any().describe("List of actions to perform when the automation is triggered")
     },
     async ({ alias, description, trigger, condition, action }) => {
       try {
@@ -133,9 +135,9 @@ export function registerAutomationTools(server: McpServer) {
     "updateAutomation",
     "Updates an existing automation by changing its state (on/off) or configuration.",
     {
-      automation_id: z.string(),
-      state: z.enum(["on", "off"]).optional(),
-      config: z.any().optional()
+      automation_id: z.string().describe("Automation ID (if doesn't start with 'automation.', prefix will be added automatically)"),
+      state: z.enum(["on", "off"]).optional().describe("New state for the automation ('on' or 'off')"),
+      config: z.any().optional().describe("New configuration for the automation")
     },
     async ({ automation_id, state, config }) => {
       try {
@@ -190,7 +192,9 @@ export function registerAutomationTools(server: McpServer) {
   server.tool(
     "deleteAutomation",
     "Permanently removes an automation from Home Assistant by its ID.",
-    { automation_id: z.string() },
+    { 
+      automation_id: z.string().describe("Automation ID to delete (if doesn't start with 'automation.', prefix will be added automatically)") 
+    },
     async ({ automation_id }) => {
       try {
         if (!automation_id.startsWith('automation.')) {

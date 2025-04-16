@@ -68,8 +68,8 @@ export function registerUpdateTools(server: McpServer) {
     "getUpdateDetails",
     "Gets detailed information about a specific update including release notes and version information.",
     { 
-      update_type: z.enum(["core", "supervisor", "addon"]), 
-      addon_slug: z.string().optional()
+      update_type: z.enum(["core", "supervisor", "addon"]).describe("Type of update to check: core, supervisor, or addon"),
+      addon_slug: z.string().optional().describe("Slug identifier of the addon (required when update_type is 'addon')")
     },
     async ({ update_type, addon_slug }) => {
       try {
@@ -156,7 +156,9 @@ export function registerUpdateTools(server: McpServer) {
   server.tool(
     "installUpdates",
     "Simulates installing updates for Home Assistant components with an option to update all or just core components.",
-    { update_all: z.boolean().optional() },
+    { 
+      update_all: z.boolean().optional().describe("Whether to update all components (true) or just core components (false). Default is true.") 
+    },
     async ({ update_all = true }) => {
       try {
         // Get all entities

@@ -44,8 +44,8 @@ export function registerMediaPlayerTools(server: McpServer) {
     "controlMediaPlayer",
     "Controls a media player with common commands like play, pause, stop, next, or previous.",
     { 
-      entity_id: z.string(),
-      command: z.enum(["play", "pause", "stop", "next", "previous"]),
+      entity_id: z.string().describe("Media player entity ID (if doesn't start with 'media_player.', prefix will be added automatically)"),
+      command: z.enum(["play", "pause", "stop", "next", "previous"]).describe("Command to execute on the media player"),
     },
     async ({ entity_id, command }) => {
       try {
@@ -84,8 +84,8 @@ export function registerMediaPlayerTools(server: McpServer) {
     "setVolume",
     "Sets the volume level (0.0 to 1.0) for a specified media player.",
     { 
-      entity_id: z.string(),
-      volume_level: z.number().min(0).max(1),
+      entity_id: z.string().describe("Media player entity ID (if doesn't start with 'media_player.', prefix will be added automatically)"),
+      volume_level: z.number().min(0).max(1).describe("Volume level to set, from 0.0 (mute) to 1.0 (maximum)"),
     },
     async ({ entity_id, volume_level }) => {
       try {

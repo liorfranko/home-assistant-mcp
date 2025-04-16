@@ -7,7 +7,9 @@ export function registerEntityTools(server: McpServer) {
   server.tool(
     "listEntities",
     "Lists all entities from Home Assistant, optionally filtered by domain (e.g., light, switch, sensor).",
-    { domain: z.string().optional() },
+    { 
+      domain: z.string().optional().describe("Filter entities by domain (e.g., light, switch, sensor)")
+    },
     async ({ domain }) => {
       try {
         const entities = await callHomeAssistantApi<Entity[]>('get', '/api/states');
@@ -48,7 +50,9 @@ export function registerEntityTools(server: McpServer) {
   server.tool(
     "getEntity",
     "Retrieves detailed information about a specific entity by its ID.",
-    { entity_id: z.string() },
+    { 
+      entity_id: z.string().describe("The ID of the entity to retrieve information about")
+    },
     async ({ entity_id }) => {
       try {
         const entity = await callHomeAssistantApi<Entity>('get', `/api/states/${entity_id}`);
@@ -75,9 +79,9 @@ export function registerEntityTools(server: McpServer) {
     "updateEntity",
     "Updates the state and optionally the attributes of an entity in Home Assistant.",
     {
-      entity_id: z.string(),
-      state: z.string(),
-      attributes: z.record(z.any()).optional()
+      entity_id: z.string().describe("The ID of the entity to update"),
+      state: z.string().describe("The new state to set for the entity"),
+      attributes: z.record(z.any()).optional().describe("Optional attributes to update for the entity")
     },
     async ({ entity_id, state, attributes }) => {
       try {
@@ -119,14 +123,14 @@ export function registerEntityTools(server: McpServer) {
     "callService",
     "Calls any Home Assistant service with optional service data and target entities, devices, or areas.",
     {
-      domain: z.string(),
-      service: z.string(),
-      service_data: z.record(z.any()).optional(),
+      domain: z.string().describe("The domain of the service to call (e.g., light, switch, automation)"),
+      service: z.string().describe("The service to call within the specified domain (e.g., turn_on, turn_off)"),
+      service_data: z.record(z.any()).optional().describe("Optional data to pass to the service call"),
       target: z.object({
-        entity_id: z.string().or(z.array(z.string())).optional(),
-        device_id: z.string().or(z.array(z.string())).optional(),
-        area_id: z.string().or(z.array(z.string())).optional()
-      }).optional()
+        entity_id: z.string().or(z.array(z.string())).optional().describe("Entity ID(s) to target"),
+        device_id: z.string().or(z.array(z.string())).optional().describe("Device ID(s) to target"),
+        area_id: z.string().or(z.array(z.string())).optional().describe("Area ID(s) to target")
+      }).optional().describe("Optional targeting information for the service call")
     },
     async ({ domain, service, service_data, target }) => {
       try {
