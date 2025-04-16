@@ -206,4 +206,31 @@ To add new tools:
 
 ## License
 
-MIT 
+MIT
+
+## Dashboard Management
+
+### API-Based Dashboard Tools
+
+The MCP provides tools to manage dashboards through the Home Assistant API:
+
+- `listDashboards`: Lists all dashboards in Home Assistant
+- `getDashboard`: Gets details about a specific dashboard
+- `getDashboardConfig`: Retrieves the configuration of a dashboard
+- `createDashboard`: Creates a new dashboard
+- `updateDashboardConfig`: Updates a dashboard's configuration
+- `deleteDashboard`: Deletes a dashboard
+
+These tools require that Home Assistant is configured to use the storage mode for Lovelace UI.
+
+### YAML-Based Dashboard Tools
+
+For Home Assistant instances using YAML mode for dashboards, the MCP provides tools to directly edit the YAML configuration files:
+
+- `listDashboardsFromFiles`: Lists all dashboards from YAML configuration files
+- `getDashboardConfigYaml`: Retrieves a dashboard's configuration from its YAML file
+- `createDashboardYaml`: Creates a new dashboard by writing to YAML configuration files
+- `updateDashboardYaml`: Updates a dashboard's configuration by modifying YAML files
+- `deleteDashboardYaml`: Deletes a dashboard by removing its YAML file and references
+
+These tools require that the MCP has access to the Home Assistant configuration directory, which should be specified using the `HA_CONFIG_DIR` environment variable. 

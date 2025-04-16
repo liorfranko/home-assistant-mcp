@@ -55,6 +55,8 @@ export async function callHomeAssistantApi<T>(
       case 'delete':
         response = await axios.delete(url, { headers });
         break;
+      default:
+        throw new Error(`Unsupported method: ${method}`);
     }
       
     return response.data as T;
