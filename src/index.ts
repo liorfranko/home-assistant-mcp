@@ -6,6 +6,10 @@ import { registerNodeRedTools } from "./tools/nodeRed.js";
 import { registerUpdateTools } from "./tools/updates.js";
 import { registerMediaPlayerTools } from "./tools/mediaPlayer.js";
 import { registerConfigTools } from "./tools/config.js";
+import { registerMqttTools } from "./tools/mqtt.js";
+import { registerSceneTools } from "./tools/scenes.js";
+import { registerThemeTools } from "./tools/themes.js";
+import { registerLogTools } from "./tools/logs.js";
 
 
 // Initialize server
@@ -13,7 +17,7 @@ const server = new McpServer({
   name: "Home Assistant MCP",
   version: "1.0.0",
   description: "Model Context Protocol server for controlling Home Assistant",
-  systemPrompt: "You are an agent that can control Home Assistant smart home system. You have access to various components of the Home Assistant ecosystem:\n\n- Automations: Create, edit, delete, and manage automations that control your smart home\n- Entities: Control and monitor lights, switches, sensors, climate devices, and other smart home entities\n- Media Players: Control media playback, adjust volume, and manage media player devices\n- Node-RED: Examine and interact with Node-RED flows for advanced automations\n- System: Check for updates and manage Home Assistant system components\n- Configuration: Retrieve and validate Home Assistant configuration\n- Cameras: View and control security cameras, take snapshots, and manage recordings\n- Supervisor: Manage Home Assistant add-ons and host system operations\n- Backup: Create, restore, and manage Home Assistant backups\n\nWhen users ask questions about their home or request changes to their setup, use the appropriate tools to help them. Be proactive in suggesting useful automation scenarios and consider user comfort, security and energy efficiency in your recommendations.",
+  systemPrompt: "You are an agent that can control Home Assistant smart home system. You have access to various components of the Home Assistant ecosystem:\n\n- Automations: Create, edit, delete, and manage automations that control your smart home\n- Entities: Control and monitor lights, switches, sensors, climate devices, and other smart home entities\n- Media Players: Control media playback, adjust volume, and manage media player devices\n- Node-RED: Examine and interact with Node-RED flows for advanced automations\n- System: Check for updates and manage Home Assistant system components\n- Configuration: Retrieve and validate Home Assistant configuration\n- MQTT: Manage MQTT topics, publish/subscribe to messages, and discover MQTT devices\n- Scenes: Create, activate, and manage scenes for controlling multiple entities at once\n- Themes: Manage and customize the Home Assistant frontend appearance\n- Logs: View and manage system logs, set log levels, and monitor errors\n\nWhen users ask questions about their home or request changes to their setup, use the appropriate tools to help them. Be proactive in suggesting useful automation scenarios and consider user comfort, security and energy efficiency in your recommendations.",
   usage: {
     examples: [
       "List all automations in my Home Assistant instance",
@@ -33,6 +37,23 @@ const server = new McpServer({
       "Is my garage door closed?",
       "Check if my Home Assistant configuration is valid",
       "What version of Home Assistant am I running?",
+      "List all MQTT topics",
+      "Publish a message to an MQTT topic",
+      "Subscribe to an MQTT topic",
+      "Show me all discovered MQTT devices",
+      "List all available scenes",
+      "Create a new movie night scene",
+      "Activate the bedtime scene",
+      "Delete an unused scene",
+      "List all available themes",
+      "Switch to dark mode theme",
+      "Set a custom theme",
+      "Get current theme settings",
+      "Show me the latest system logs",
+      "Set debug log level for Z-Wave integration",
+      "Show me error logs from the last hour",
+      "Clear all system logs",
+      "Show me automation execution logs"
     ]
   }
 });
@@ -44,8 +65,14 @@ registerNodeRedTools(server);
 registerUpdateTools(server);
 registerMediaPlayerTools(server);
 registerConfigTools(server);
+registerMqttTools(server);
+registerSceneTools(server);
+registerThemeTools(server);
+registerLogTools(server);
 
 // Connect to transport
 const transport = new StdioServerTransport();
 await server.connect(transport);
+
+// Remove the tools array since we're using the register pattern
  

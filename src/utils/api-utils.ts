@@ -102,4 +102,28 @@ export async function callNodeRedApi<T>(
   } catch (error: any) {
     throw error;
   }
+}
+
+// Helper function to call Home Assistant services
+export async function callService(
+  domain: string,
+  service: string,
+  serviceData?: Record<string, any>
+): Promise<any> {
+  try {
+    const endpoint = `/api/services/${domain}/${service}`;
+    return await callHomeAssistantApi('post', endpoint, serviceData);
+  } catch (error: any) {
+    throw new Error(formatErrorMessage(error, `calling service ${domain}.${service}`));
+  }
+}
+
+// Helper function to get entity state
+export async function getEntity(entityId: string): Promise<any> {
+  try {
+    const endpoint = `/api/states/${entityId}`;
+    return await callHomeAssistantApi('get', endpoint);
+  } catch (error: any) {
+    throw new Error(formatErrorMessage(error, `getting entity ${entityId}`));
+  }
 } 
