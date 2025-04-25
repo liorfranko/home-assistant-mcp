@@ -46,11 +46,13 @@ This document covers the technologies and tools used:
 
 - **Tool Usage:**
     - Tools defined in `/src/tools` with domain-specific organization
+    - **New:** WebSocket tools are now split into dedicated files for events (`events.ts`) and services (`services.ts`)
     - Each tool implements standard MCP interface
     - Strong typing via TypeScript interfaces
     - Comprehensive error handling
     - Automated testing with Jest
     - Documentation via JSDoc comments
+    - **New:** All tool registration is explicit in `src/index.ts` for clarity and extensibility
 
 - **Configuration:**
     - Environment variables for sensitive data
@@ -62,23 +64,28 @@ This document covers the technologies and tools used:
 - **WebSocket Implementation:**
     - Custom WebSocket client in `/src/ha-websocket`
     - Automatic reconnection handling
-    - Event subscription management
+    - Event subscription management (now in `events.ts`)
     - Authentication via HA token
     - Message type definitions
     - Real-time state updates
     - Event handling system
     - Ping/pong keep-alive
     - Error recovery mechanisms
+    - **New:** Service discovery logic now in `services.ts`
 
 - **API Integration:**
     - REST API for standard operations
     - WebSocket API for real-time features:
-        - Event subscriptions
+        - Event subscriptions (now in `events.ts`)
         - State changes
         - Configuration updates
         - Service calls
         - Command results
+        - Service discovery (now in `services.ts`)
     - MQTT for message broker operations
     - Node-RED API for flow management
+
+- **Testing:**
+    - All tests pass after the latest refactor and tool split
 
 *(Please detail the technical context here)* 

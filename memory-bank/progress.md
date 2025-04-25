@@ -1,6 +1,6 @@
 # Progress
 
-*(Updated 2024-03-26)*
+*(Updated 2025-04-25)*
 
 This document tracks the overall project status and evolution:
 
@@ -13,15 +13,16 @@ This document tracks the overall project status and evolution:
     - Theme control
     - System updates
   - WebSocket integration:
-    - Real-time event subscriptions
+    - Real-time event subscriptions (now in `events.ts`)
     - Live entity state updates
     - Configuration validation
-    - Custom event firing
-    - Service discovery
+    - Custom event firing (now in `events.ts`)
+    - Service discovery (now in `services.ts`)
   - Node-RED integration:
     - Flow management and deployment
   - MQTT messaging capabilities
   - Secure authentication handling
+  - All tests pass after the latest refactor
 
 - **To Be Built:** 
   - Enhanced error handling and recovery
@@ -36,6 +37,8 @@ This document tracks the overall project status and evolution:
   - WebSocket client implemented and tested
   - Testing framework in place
   - TypeScript types and interfaces defined
+  - Tools are now split by domain and protocol (REST vs WebSocket)
+  - Tool registration is explicit in `src/index.ts`
 
 - **Known Issues:** 
   - None critical at present
@@ -51,4 +54,6 @@ This document tracks the overall project status and evolution:
   - Implemented WebSocket client for real-time features
   - Chose EventEmitter pattern for WebSocket events
   - Added automatic WebSocket reconnection
-  - Implemented promise-based WebSocket commands 
+  - Implemented promise-based WebSocket commands
+  - Split event and service WebSocket tools into dedicated files for maintainability
+  - All tool registration is now explicit in the main entrypoint 

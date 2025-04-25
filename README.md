@@ -33,6 +33,15 @@ This MCP provides integration between Anthropic's Claude and your Home Assistant
   - Subscribe to events and state changes
   - Fire custom events
   - Get live entity states and configuration
+  - Discover available services
+
+- **Architecture & Patterns**
+  - Modular, domain-driven tool architecture
+  - Tools split by domain and protocol (REST vs WebSocket)
+  - Dedicated files for event and service WebSocket tools
+  - Explicit tool registration in `src/index.ts`
+  - Strong typing and validation
+  - All tests pass after the latest refactor
 
 ## Source Code Structure
 
@@ -44,16 +53,25 @@ The source code is organized into the following directories:
   - `/ha-websocket`: WebSocket client implementation
     - `client.ts`: WebSocket client for real-time communication
     - `types.ts`: WebSocket message type definitions
-  - `/tools`: Tool implementations organized by functionality
-    - `automations.ts`: Tools for managing Home Assistant automations
-    - `entities.ts`: Tools for interacting with Home Assistant entities
-    - `nodeRed.ts`: Tools for managing Node-RED flows
-    - `updates.ts`: Tools for handling Home Assistant updates
-    - `websocket.ts`: Tools for WebSocket communication
+  - `/tools`: Tool implementations organized by domain and protocol
+    - `automations.ts`: Tools for managing Home Assistant automations (REST)
+    - `entities.ts`: Tools for interacting with Home Assistant entities (REST)
+    - `nodeRed.ts`: Tools for managing Node-RED flows (REST)
+    - `updates.ts`: Tools for handling Home Assistant updates (REST)
+    - `mediaPlayer.ts`: Tools for media player control (REST)
+    - `config.ts`: Tools for configuration management (REST)
+    - `mqtt.ts`: Tools for MQTT messaging (REST)
+    - `scenes.ts`: Tools for scene management (REST)
+    - `themes.ts`: Tools for theme management (REST)
+    - `logs.ts`: Tools for log management (REST)
+    - `websocket.ts`: Core WebSocket tools (connect, config, state)
+    - `events.ts`: WebSocket tools for event subscription and firing
+    - `services.ts`: WebSocket tools for service discovery
   - `/types`: Type definitions
   - `/utils`: Utility functions
     - `api-utils.ts`: API connection utilities and helper functions
-  - `index.ts`: Main entry point that registers all tools
+    - `ws-utils.ts`: WebSocket client utilities
+  - `index.ts`: Main entry point that registers all tools explicitly
 
 ## Prerequisites
 
@@ -147,14 +165,16 @@ Run tests:
 npm test
 ```
 
+All tests pass after the latest refactor and tool split.
+
 ### Adding New Tools
 
 To add new tools:
 
 1. Create appropriate type definitions in `/types` if needed
 2. Add utility functions in `/utils` if needed
-3. Create a new file in `/tools` for your tool category
-4. Register your tools in `index.ts`
+3. Create a new file in `/tools` for your tool category (by domain and protocol)
+4. Register your tools explicitly in `index.ts`
 
 ## Generating a Home Assistant Long-Lived Access Token
 
@@ -205,10 +225,10 @@ To add new tools:
 
 - `connectWebSocket`: Connect to Home Assistant WebSocket API
 - `getHaConfig`: Get Home Assistant configuration via WebSocket
-- `subscribeToEvents`: Subscribe to Home Assistant events
-- `fireEvent`: Fire custom events in Home Assistant
 - `getAllEntityStates`: Get all entity states via WebSocket
-- `getAvailableServices`: Get available services via WebSocket
+- `subscribeToEvents`: Subscribe to Home Assistant events (see `events.ts`)
+- `fireEvent`: Fire custom events in Home Assistant (see `events.ts`)
+- `getAvailableServices`: Get available services via WebSocket (see `services.ts`)
 - `validateConfig`: Validate Home Assistant configuration components
 
 ## Security Considerations
@@ -256,4 +276,17 @@ For Home Assistant instances using YAML mode for dashboards, the MCP provides to
 - `updateDashboardYaml`: Updates a dashboard's configuration by modifying YAML files
 - `deleteDashboardYaml`: Deletes a dashboard by removing its YAML file and references
 
-These tools require that the MCP has access to the Home Assistant configuration directory, which should be specified using the `HA_CONFIG_DIR` environment variable. 
+These tools require that the MCP has access to the Home Assistant configuration directory, which should be specified using the `HA_CONFIG_DIR` environment variable.
+
+## Architectural & Design Patterns
+
+- Modular, domain-driven tool architecture (REST and WebSocket separation)
+- Dedicated files for event and service WebSocket tools
+- Explicit tool registration in `src/index.ts`
+- Strong typing and validation throughout
+- Observer and event emitter patterns for real-time event handling
+- Factory and strategy patterns for tool creation and API interaction
+- Singleton pattern for WebSocket client
+- Comprehensive error handling and automated testing
+- All tests pass after the latest refactor
+- Project is fully operational and modularized, with no critical issues 

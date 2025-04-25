@@ -11,6 +11,8 @@ import { registerSceneTools } from "./tools/scenes.js";
 import { registerThemeTools } from "./tools/themes.js";
 import { registerLogTools } from "./tools/logs.js";
 import { registerWebSocketTools } from "./tools/websocket.js";
+import { registerEventTools } from "./tools/events.js";
+import { registerServiceTools } from "./tools/services.js";
 
 
 // Initialize server
@@ -71,6 +73,8 @@ registerSceneTools(server);
 registerThemeTools(server);
 registerLogTools(server);
 registerWebSocketTools(server);
+registerEventTools(server);
+registerServiceTools(server);
 
 // Connect to transport
 const transport = new StdioServerTransport();

@@ -3,25 +3,30 @@
 This document describes the technical architecture and design:
 
 - **Architecture:**
-    - A Node.js/TypeScript application acting as an MCP server.
-    - Connects to Home Assistant and Node-RED via their respective APIs using user-provided credentials (URL, token/password).
+    - Node.js/TypeScript MCP server for Home Assistant and Node-RED integration.
+    - Connects to Home Assistant and Node-RED via REST and WebSocket APIs.
     - Maintains WebSocket connection for real-time communication with Home Assistant.
-    - Exposes specific functionalities as tools callable by an AI model (e.g., within Cursor).
-    - Tool implementations are organized by domain (`automations`, `entities`, `nodeRed`, `websocket`, etc.) within the `/src/tools` directory.
+    - Exposes domain-specific functionalities as tools callable by an AI model.
+    - **Tools are now split by domain and protocol:**
+        - REST tools (e.g., entities, automations, config) vs WebSocket tools (real-time events, state, services).
+        - Dedicated files for event (`events.ts`) and service (`services.ts`) WebSocket tools for maintainability and clarity.
+    - All tool registration is explicit in `src/index.ts` for transparency and extensibility.
     - Uses environment variables or a `.env` file for configuration.
 
 - **Key Decisions:**
     - Use TypeScript for type safety and better development experience.
-    - Structure tools logically by HA/Node-RED domain.
+    - Structure tools logically by HA/Node-RED domain and protocol.
     - Provide setup options for both standalone execution and Cursor integration.
     - Separate API interaction logic from tool logic.
     - Implement comprehensive error handling and validation.
     - Use Jest for testing framework.
     - Use WebSocket for real-time features instead of polling.
     - Implement robust WebSocket reconnection handling.
+    - **New:** Use dedicated files for event and service WebSocket tools.
+    - **New:** Register all tools explicitly in the main entrypoint.
 
 - **Design Patterns:**
-    - Modular tool registration system.
+    - Modular tool registration system, now with explicit registration in `index.ts`.
     - Configuration management via environment variables.
     - Type-safe API interactions.
     - Domain-driven design for tool organization.
@@ -30,13 +35,15 @@ This document describes the technical architecture and design:
     - Strategy pattern for different API interactions.
     - Singleton pattern for WebSocket client.
     - Event emitter pattern for WebSocket events.
+    - **New:** Dedicated event and service tool modules for WebSocket.
 
 - **Component Relationships:** 
     - AI Assistant <-> MCP Server (this project) <-> Home Assistant API / Node-RED API.
     - Tool Registry <-> Individual Tools <-> API Clients.
     - Configuration Manager <-> Environment.
     - Type Definitions <-> API Interfaces.
-    - WebSocket Client <-> Event Subscribers.
+    - WebSocket Client <-> Event Subscribers (now in `events.ts`).
+    - WebSocket Client <-> Service Discovery (now in `services.ts`).
     - WebSocket Client <-> Home Assistant WebSocket API.
 
 - **Critical Paths:** 
@@ -44,9 +51,9 @@ This document describes the technical architecture and design:
     - API call translation within tools.
     - Error handling and recovery.
     - State management and updates.
-    - Tool registration and initialization.
+    - Tool registration and initialization (now explicit in `index.ts`).
     - WebSocket connection management.
-    - Event subscription handling.
+    - Event subscription handling (now in `events.ts`).
     - Real-time state synchronization.
 
 - **Communication Patterns:**
@@ -56,10 +63,11 @@ This document describes the technical architecture and design:
         - Service calls
         - State queries
     - WebSocket API:
-        - Real-time events
+        - Real-time events (now in `events.ts`)
         - State changes
         - Command results
         - Configuration updates
+        - Service discovery (now in `services.ts`)
     - MQTT:
         - Message publishing
         - Topic subscriptions
