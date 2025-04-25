@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Entity, UpdateEntity } from "../types/index.js";
-import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
+import { callHomeAssistantApi, formatErrorMessage } from "../utils/rest-api-utils.js";
 
 export function registerUpdateTools(server: McpServer) {
   server.tool(

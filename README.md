@@ -28,6 +28,12 @@ This MCP provides integration between Anthropic's Claude and your Home Assistant
   - List, get, and update Node-RED flows
   - Deploy flows with different deployment types
 
+- **WebSocket Integration**
+  - Real-time communication with Home Assistant
+  - Subscribe to events and state changes
+  - Fire custom events
+  - Get live entity states and configuration
+
 ## Source Code Structure
 
 The source code is organized into the following directories:
@@ -35,11 +41,15 @@ The source code is organized into the following directories:
 - `/src`: Main source directory
   - `/config`: Configuration settings
     - `api.ts`: API connection configuration
+  - `/ha-websocket`: WebSocket client implementation
+    - `client.ts`: WebSocket client for real-time communication
+    - `types.ts`: WebSocket message type definitions
   - `/tools`: Tool implementations organized by functionality
     - `automations.ts`: Tools for managing Home Assistant automations
     - `entities.ts`: Tools for interacting with Home Assistant entities
     - `nodeRed.ts`: Tools for managing Node-RED flows
     - `updates.ts`: Tools for handling Home Assistant updates
+    - `websocket.ts`: Tools for WebSocket communication
   - `/types`: Type definitions
   - `/utils`: Utility functions
     - `api-utils.ts`: API connection utilities and helper functions
@@ -81,6 +91,7 @@ The source code is organized into the following directories:
          "env": {
            "HA_URL": "http://homeassistant.local:8123",
            "HA_TOKEN": "your_long_lived_access_token",
+           "HA_WEBSOCKET_URL": "ws://homeassistant.local:8123/api/websocket",
            "NODE_RED_URL": "http://homeassistant.local:1880",
            "NODE_RED_USERNAME": "your_node_red_username",
            "NODE_RED_PASSWORD": "your_node_red_password"
@@ -110,6 +121,7 @@ The source code is organized into the following directories:
    ```
    HA_URL=http://homeassistant.local:8123
    HA_TOKEN=your_long_lived_access_token
+   HA_WEBSOCKET_URL=ws://homeassistant.local:8123/api/websocket
    NODE_RED_URL=http://homeassistant.local:1880
    NODE_RED_USERNAME=your_node_red_username
    NODE_RED_PASSWORD=your_node_red_password
@@ -189,12 +201,23 @@ To add new tools:
 - `updateNodeRedFlow`: Update a Node-RED flow
 - `deployNodeRedFlows`: Deploy Node-RED flows
 
+### WebSocket Integration
+
+- `connectWebSocket`: Connect to Home Assistant WebSocket API
+- `getHaConfig`: Get Home Assistant configuration via WebSocket
+- `subscribeToEvents`: Subscribe to Home Assistant events
+- `fireEvent`: Fire custom events in Home Assistant
+- `getAllEntityStates`: Get all entity states via WebSocket
+- `getAvailableServices`: Get available services via WebSocket
+- `validateConfig`: Validate Home Assistant configuration components
+
 ## Security Considerations
 
 - Keep your Home Assistant access token secure
 - This MCP has full access to your Home Assistant instance with the privileges of your access token
 - Consider using a restricted user account for the access token
 - Run the MCP in a secure environment
+- WebSocket connections are authenticated using the same token as the REST API
 
 ## Troubleshooting
 

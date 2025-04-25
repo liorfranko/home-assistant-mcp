@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { callHomeAssistantApi, formatErrorMessage } from "../utils/api-utils.js";
+import { callHomeAssistantApi, formatErrorMessage } from "../utils/rest-api-utils.js";
 
 export function registerConfigTools(server: McpServer) {
   server.tool(

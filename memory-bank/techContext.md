@@ -5,25 +5,80 @@ This document covers the technologies and tools used:
 - **Technologies:**
     - Node.js (v14.x+)
     - TypeScript
-    - Home Assistant API
+    - Home Assistant REST API
+    - Home Assistant WebSocket API
     - Node-RED Admin API (optional)
+    - MQTT Protocol Support
+
 - **Development Setup:**
-    - Clone repository.
+    - Clone repository
     - Install dependencies: `npm install`
-    - Configure connection details (HA URL/Token, optional Node-RED URL/Credentials) via `.env` file or Cursor `mcp.json`.
+    - Configure connection details via `.env` file or Cursor `mcp.json`:
+        - Home Assistant URL and Long-Lived Access Token
+        - Home Assistant WebSocket URL
+        - Optional Node-RED URL and Credentials
+        - Optional MQTT broker details
     - Build: `npm run build`
     - Run standalone: `npm start`
     - Run dev mode: `npm run dev`
-    - Run tests: `npm test` (Uses Jest - see `jest.config.js`)
+    - Run tests: `npm test`
+
 - **Constraints:**
-    - Requires network access to the Home Assistant instance.
-    - Security depends on the provided HA token's permissions.
-    - Dashboard tools may have different requirements based on HA Lovelace mode (storage vs. YAML).
-- **Dependencies:** (See `package.json` for specific libraries - likely includes HTTP clients like `axios` or `node-fetch`, and potentially HA/Node-RED specific libraries).
+    - Requires network access to the Home Assistant instance
+    - Security depends on the provided HA token's permissions
+    - Dashboard tools may have different requirements based on HA Lovelace mode
+    - Node-RED integration requires admin API access
+    - MQTT functionality needs broker configuration
+    - WebSocket connections require stable network connection
+
+- **Dependencies:**
+    - Core:
+        - `axios` for HTTP requests
+        - `ws` for WebSocket connections
+        - `mqtt` for MQTT protocol support
+        - `dotenv` for environment configuration
+        - `zod` for runtime type validation
+    - Development:
+        - `typescript` for type checking
+        - `jest` for testing
+        - `eslint` for code linting
+        - `prettier` for code formatting
+
 - **Tool Usage:**
-    - Tools are defined in `/src/tools` and registered in `/src/index.ts`.
-    - Follows Cursor MCP specifications for integration.
-    - Uses `tsconfig.json` for TypeScript configuration.
-    - Uses `jest.config.js` for Jest test runner configuration.
+    - Tools defined in `/src/tools` with domain-specific organization
+    - Each tool implements standard MCP interface
+    - Strong typing via TypeScript interfaces
+    - Comprehensive error handling
+    - Automated testing with Jest
+    - Documentation via JSDoc comments
+
+- **Configuration:**
+    - Environment variables for sensitive data
+    - TypeScript configuration in `tsconfig.json`
+    - Jest configuration in `jest.config.js`
+    - ESLint rules for code quality
+    - Prettier config for consistent formatting
+
+- **WebSocket Implementation:**
+    - Custom WebSocket client in `/src/ha-websocket`
+    - Automatic reconnection handling
+    - Event subscription management
+    - Authentication via HA token
+    - Message type definitions
+    - Real-time state updates
+    - Event handling system
+    - Ping/pong keep-alive
+    - Error recovery mechanisms
+
+- **API Integration:**
+    - REST API for standard operations
+    - WebSocket API for real-time features:
+        - Event subscriptions
+        - State changes
+        - Configuration updates
+        - Service calls
+        - Command results
+    - MQTT for message broker operations
+    - Node-RED API for flow management
 
 *(Please detail the technical context here)* 

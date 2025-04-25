@@ -1,1 +1,1 @@
-export * from './api-utils.js'; 
+export * from './rest-api-utils.js'; 

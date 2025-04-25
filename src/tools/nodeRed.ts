@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { NodeRedFlow, FormattedNodeRedFlow } from "../types/index.js";
-import { callNodeRedApi, formatErrorMessage } from "../utils/api-utils.js";
+import { callNodeRedApi, formatErrorMessage } from "../utils/rest-api-utils.js";
 
 export function registerNodeRedTools(server: McpServer) {
   server.tool(

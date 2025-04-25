@@ -6,6 +6,14 @@ This project, **Home Assistant MCP (Model Context Protocol)**, provides an integ
 
 **Scope:**
 - Implement tools covering key Home Assistant and Node-RED functionalities (see README tool list).
+- Provide real-time communication through WebSocket API for events and state changes.
 - Provide a secure and configurable way to connect to HA/Node-RED APIs.
 - Integrate with environments like Cursor via its MCP server mechanism.
 - Maintain clear documentation and structure for tool development.
+
+**Key Features:**
+- REST API integration for core Home Assistant functionality
+- WebSocket API integration for real-time updates and events
+- Node-RED flow management and deployment
+- Dashboard configuration and management
+- Secure authentication and configuration

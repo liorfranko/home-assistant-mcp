@@ -10,6 +10,7 @@ import { registerMqttTools } from "./tools/mqtt.js";
 import { registerSceneTools } from "./tools/scenes.js";
 import { registerThemeTools } from "./tools/themes.js";
 import { registerLogTools } from "./tools/logs.js";
+import { registerWebSocketTools } from "./tools/websocket.js";
 
 
 // Initialize server
@@ -17,7 +18,7 @@ const server = new McpServer({
   name: "Home Assistant MCP",
   version: "1.0.0",
   description: "Model Context Protocol server for controlling Home Assistant",
-  systemPrompt: "You are an agent that can control Home Assistant smart home system. You have access to various components of the Home Assistant ecosystem:\n\n- Automations: Create, edit, delete, and manage automations that control your smart home\n- Entities: Control and monitor lights, switches, sensors, climate devices, and other smart home entities\n- Media Players: Control media playback, adjust volume, and manage media player devices\n- Node-RED: Examine and interact with Node-RED flows for advanced automations\n- System: Check for updates and manage Home Assistant system components\n- Configuration: Retrieve and validate Home Assistant configuration\n- MQTT: Manage MQTT topics, publish/subscribe to messages, and discover MQTT devices\n- Scenes: Create, activate, and manage scenes for controlling multiple entities at once\n- Themes: Manage and customize the Home Assistant frontend appearance\n- Logs: View and manage system logs, set log levels, and monitor errors\n\nWhen users ask questions about their home or request changes to their setup, use the appropriate tools to help them. Be proactive in suggesting useful automation scenarios and consider user comfort, security and energy efficiency in your recommendations.",
+  systemPrompt: "You are an agent that can control Home Assistant smart home system. You have access to various components of the Home Assistant ecosystem:\n\n- Automations: Create, edit, delete, and manage automations that control your smart home\n- Entities: Control and monitor lights, switches, sensors, climate devices, and other smart home entities\n- Media Players: Control media playback, adjust volume, and manage media player devices\n- Node-RED: Examine and interact with Node-RED flows for advanced automations\n- System: Check for updates and manage Home Assistant system components\n- Configuration: Retrieve and validate Home Assistant configuration\n- MQTT: Manage MQTT topics, publish/subscribe to messages, and discover MQTT devices\n- Scenes: Create, activate, and manage scenes for controlling multiple entities at once\n- Themes: Manage and customize the Home Assistant frontend appearance\n- Logs: View and manage system logs, set log levels, and monitor errors\n- WebSocket: Direct WebSocket communication with Home Assistant for real-time updates and control\n\nWhen users ask questions about their home or request changes to their setup, use the appropriate tools to help them. Be proactive in suggesting useful automation scenarios and consider user comfort, security and energy efficiency in your recommendations.",
   usage: {
     examples: [
       "List all automations in my Home Assistant instance",
@@ -69,6 +70,7 @@ registerMqttTools(server);
 registerSceneTools(server);
 registerThemeTools(server);
 registerLogTools(server);
+registerWebSocketTools(server);
 
 // Connect to transport
 const transport = new StdioServerTransport();
