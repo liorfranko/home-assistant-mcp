@@ -137,59 +137,6 @@ export function registerEntityTools(server: McpServer) {
   );
 
   server.tool(
-    "callService",
-    "Calls any Home Assistant service with optional service data and target entities, devices, or areas.",
-    {
-      domain: z.string().describe("The domain of the service to call (e.g., light, switch, automation)"),
-      service: z.string().describe("The service to call within the specified domain (e.g., turn_on, turn_off)"),
-      service_data: z.record(z.any()).optional().describe("Optional data to pass to the service call"),
-      target: z.object({
-        entity_id: z.string().or(z.array(z.string())).optional().describe("Entity ID(s) to target"),
-        device_id: z.string().or(z.array(z.string())).optional().describe("Device ID(s) to target"),
-        area_id: z.string().or(z.array(z.string())).optional().describe("Area ID(s) to target")
-      }).optional().describe("Optional targeting information for the service call")
-    },
-    async ({ domain, service, service_data, target }) => {
-      try {
-        const payload: any = {};
-        
-        if (service_data) {
-          Object.assign(payload, service_data);
-        }
-        
-        if (target) {
-          Object.assign(payload, target);
-        }
-        
-        const response = await callHomeAssistantApi<any>(
-          'post',
-          `/api/services/${domain}/${service}`,
-          payload
-        );
-        
-        return {
-          content: [{ 
-            type: "text", 
-            text: JSON.stringify({
-              success: true,
-              message: `Service ${domain}.${service} called successfully`,
-              result: response
-            }, null, 2)
-          }]
-        };
-      } catch (error: any) {
-        console.error(`Error calling service ${domain}.${service}:`, error);
-        return {
-          content: [{ 
-            type: "text", 
-            text: formatErrorMessage(error, `calling service ${domain}.${service}`)
-          }]
-        };
-      }
-    }
-  );
-
-  server.tool(
     "getAllEntityStates",
     "Retrieves all entity states from Home Assistant via WebSocket",
     {},

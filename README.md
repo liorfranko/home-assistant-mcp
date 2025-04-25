@@ -247,10 +247,6 @@ To add new tools:
 - Verify environment variables are correctly set in your `.env` file
 - Check the console output for detailed error messages
 
-## License
-
-MIT
-
 ## Dashboard Management
 
 ### API-Based Dashboard Tools
@@ -290,3 +286,8 @@ These tools require that the MCP has access to the Home Assistant configuration 
 - Comprehensive error handling and automated testing
 - All tests pass after the latest refactor
 - Project is fully operational and modularized, with no critical issues 
+
+
+## License
+
+MIT

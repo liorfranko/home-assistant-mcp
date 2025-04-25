@@ -75,4 +75,11 @@ export class HomeAssistantWebSocketClient {
     return await getServices(this.connection);
   }
 
+  async validateConfig() {
+    await this.connect();
+    return await this.connection.sendMessagePromise({
+      type: 'core/check_config'
+    });
+  }
+
 } 
