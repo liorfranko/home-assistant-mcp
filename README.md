@@ -218,6 +218,3 @@ curl -X POST http://localhost:3000/api/action \
 - [Project GitHub](https://github.com/yourusername/home-assistant-mcp)
 
 ---
-
-> Inspired by [tevonsb/homeassistant-mcp](https://github.com/tevonsb/homeassistant-mcp)  
-> _"Control your home, your way—powered by AI."_
