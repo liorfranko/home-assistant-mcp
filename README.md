@@ -134,6 +134,55 @@ npm start
 
 ---
 
+## 🤖 More LLM Prompt Examples
+
+- 🏠 **Home Control:**
+  - _"Dim the living room lights to 30% at 8pm every night."_
+  - _"What sensors are currently open?"_
+  - _"Turn off all lights in the house."_
+  - _"Is the garage door open?"_
+
+- 🔔 **Automations & Scheduling:**
+  - _"Create an automation to notify me if the front door is left open for more than 5 minutes."_
+  - _"Disable the 'Good Night' automation until tomorrow."_
+  - _"List automations that control the kitchen lights."_
+
+- 🎶 **Media & Entertainment:**
+  - _"Play jazz on the living room speakers."_
+  - _"Mute all media players."_
+  - _"What is currently playing in the bedroom?"_
+
+- 🧑‍🔧 **Node-RED & Advanced Flows:**
+  - _"Show me all Node-RED flows that use the 'motion detected' event."_
+  - _"Update the 'morning routine' flow to include weather forecast."_
+
+- 🖥️ **Dashboards & UI:**
+  - _"Add a weather card to the main dashboard."_
+  - _"Remove the 'energy usage' card from the overview dashboard."_
+
+- 🎭 **Scenes & Themes:**
+  - _"Activate the 'Movie Night' scene."_
+  - _"Switch to dark theme at sunset automatically."_
+
+- 🔄 **Updates & Maintenance:**
+  - _"Check for Home Assistant updates."_
+  - _"Update all add-ons to the latest version."_
+
+- 🛠️ **Troubleshooting & Info:**
+  - _"Why did the 'morning lights' automation fail?"_
+  - _"Show me the last 10 log entries for the thermostat."_
+  - _"Validate my Home Assistant configuration."_
+
+- 📦 **MQTT & Integrations:**
+  - _"Publish 'ON' to topic 'home/garden/lights'."_
+  - _"Subscribe to MQTT topic 'home/alerts'."_
+
+- 🕹️ **Custom Services:**
+  - _"Call the 'vacuum.start' service for the living room vacuum."_
+  - _"Restart Home Assistant core."_
+
+---
+
 ## 🏗️ Architectural Patterns
 
 - 🧩 **Modular, domain-driven tool architecture**
@@ -216,5 +265,3 @@ curl -X POST http://localhost:3000/api/action \
 - [Home Assistant Docs](https://www.home-assistant.io/docs/)
 - [Node-RED Docs](https://nodered.org/docs/)
 - [Project GitHub](https://github.com/yourusername/home-assistant-mcp)
-
----
